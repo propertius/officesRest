@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Offices</title>
+    <script src="/page/javascripts/angular.min.js"></script>
+    <script src="/page/javascripts/jquery-2.1.0.min.js"></script>
+    <script src="/page/javascripts/bootstrap.min.js"></script>
+    <script src="/page/javascripts/ui-bootstrap-tpls-0.10.0.min.js"></script>
+    <script src="/page/javascripts/jasny-bootstrap.min.js"></script>
+    <script src="/page/javascripts/offices.js"></script>
+    <link href="/page/stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="/page/stylesheets/jasny-bootstrap.min.css" rel="stylesheet">
+</head>
+<body ng-app="officesModule">
+    <div class="container-fluid" ng-controller="officesCtrl">
+        <div class="row">
+            <div class="col-md-4">
+                <table class="table table-condensed table-striped">
+                    <tbody>
+                    <tr>
+                        <th><a href="#" ng-click="newOffice()">New Office</a></th>
+                    </tr>
+                    </tbody>
+                    <tbody>
+                    <tr ng-repeat="office in offices">
+                        <td>
+                            <a href="#" ng-click="openOffice(office.id)">{{office.location}}</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <table class="table table-condensed table-striped">
+                    <tbody>
+                    <tr>
+                        <th><a href="#" ng-click="listOpenOffices()">Open Now</a></th>
+                    </tr>
+                    <tr ng-repeat="openOff in openOffices">
+                        <td>
+                            <a href="#" ng-click="openOffice(openOff.id)">{{openOff.location}}</a>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+            <div class="col-md-4">
+                <form class="form-horizontal" role="form" id="officeForm" name="officeForm" novalidate="novalidate">
+                    <div class="form-group">
+                        <label>ID</label><br>
+                        {{office.id}}
+                    </div>
+                    <div class="form-group" ng-class="cssClass(officeForm.location)">
+                        <label for="location">Location</label>
+                        <input id="location" name="location" class="form-control" type="text" ng-model="office.location" placeholder="Location" required="true">
+                    </div>
+                    <div class="form-group" ng-class="cssClass(officeForm.timeDifference)">
+                        <label for="timeDifference">Time Difference</label>
+                        <input id="timeDifference" name="timeDifference" class="form-control" type="number" ng-model="office.timeDifference" placeholder="Time difference" required="true">
+                    </div>
+                    <div class="form-group" ng-class="cssClass(officeForm.openFrom)">
+                        <label for="openFrom">Open From</label>
+                        <input id="openFrom" name="openFrom" class="form-control" data-mask="99:99:99" type="text" ng-model="office.openFrom" placeholder="Open From">
+                    </div>
+                    <div class="form-group" ng-class="cssClass(officeForm.openTo)">
+                        <label for="openTo">Open To</label>
+                        <input id="openTo" ng-model="office.openTo" name="openTo" class="form-control" data-mask="99:99:99" type="text" placeholder="Open To">
+                    </div>
+                    <button class="btn btn-primary" ng-class="cssClassButton(officeForm)" ng-disabled="!isValid(officeForm)" ng-click="saveOffice()" type="button">Save</button>
+                    <button class="btn btn-primary" ng-disabled="!canRevertOffice()" ng-click="revertOffice()" type="button">Revert</button>
+                    <button class="btn btn-primary" ng-disabled="!canDeleteOffice()" ng-click="deleteOffice()" type="button">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
